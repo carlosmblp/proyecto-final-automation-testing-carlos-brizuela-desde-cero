@@ -3,6 +3,9 @@ from datetime import datetime
 from pathlib import Path # construye y maneja rutas a carpetas y archivos
 import re # ayuda a limpiar el nombre de la prueba para que sea seguro usarlo como nombre de archivo
 
+import os
+from selenium.webdriver.chrome.options import Options
+
 import pytest
 import pytest_html # permite adjuntar contenido al reporte HTML.
 from selenium import webdriver
@@ -10,13 +13,22 @@ from selenium import webdriver
 
 @pytest.fixture
 def driver():
-    navegador = webdriver.Chrome()
-    navegador.maximize_window()
+    options = Options()
 
-    yield navegador
+    if os.getenv("CI") == "true":
+        options.add_argument("--headless")
+        options.add_argument("--no-sandbox")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--window-size=1920,1080")
+
+    driver = webdriver.Chrome(options=options)
+
+    if os.getenv("CI") != "true":
+        driver.maximize_window()
+
+    yield driver
+    driver.quit()
     
-    navegador.quit()
-
 # Un hook es una función que pytest llama en un momento concreto. 
 # pytest_runtest_makereport se llama cuando pytest prepara el resultado de una prueba.
 # hookwrapper=True permite que esta función espere a que pytest termine de preparar ese resultado

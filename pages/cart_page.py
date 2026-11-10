@@ -40,3 +40,7 @@ class CartPage:
         WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable(self.CHECKOUT_BUTTON)
         ).click()
+
+        WebDriverWait(self.driver, 10).until(
+        EC.url_contains("checkout-step-one.html")
+        )

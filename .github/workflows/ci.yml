@@ -1,0 +1,48 @@
+name: Pruebas automatizadas
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+
+    env:
+      CI: "true"
+
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v7
+
+      - name: Configurar Python
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.14"
+          cache: "pip"
+
+      - name: Instalar Chrome y ChromeDriver
+        uses: browser-actions/setup-chrome@v2
+        with:
+          chrome-version: stable
+          install-chromedriver: true
+
+      - name: Instalar dependencias del proyecto
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements.txt
+
+      - name: Preparar carpeta de reportes
+        run: mkdir -p reports/screens
+
+      - name: Ejecutar pruebas
+        run: python -m pytest

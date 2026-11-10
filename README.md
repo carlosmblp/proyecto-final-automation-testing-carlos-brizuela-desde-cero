@@ -23,6 +23,9 @@ proyecto-final-automation-testing-carlos-brizuela/
 ├── pytest.ini
 ├── requirements.txt
 ├── README.md
+├── .github/
+│   └── workflows/
+│       └── ci.yml
 ├── data/
 │   ├── api_payloads.json
 │   └── ui_users.json
@@ -47,6 +50,18 @@ proyecto-final-automation-testing-carlos-brizuela/
 │       └── test_login.py
 └── utils/
     └── logger.py
+
+## Integración continua
+
+El proyecto utiliza GitHub Actions para ejecutar automáticamente todas las pruebas:
+
+- Cuando se suben cambios a `main` o a una rama `feature/*`.
+- Cuando se crea o actualiza una solicitud de incorporación hacia `main`.
+- También se puede iniciar manualmente desde la pestaña **Actions** de GitHub.
+
+El flujo configura Python y Chrome, instala las dependencias y ejecuta `pytest`. En el servidor de CI, Chrome funciona en modo headless y Selenium Manager gestiona el controlador compatible.
+
+El resultado de cada ejecución se puede consultar en la pestaña **Actions** del repositorio.
 
 ## Ejecutar todas las pruebas:
 ### .\.venv\Scripts\python.exe -m pytest

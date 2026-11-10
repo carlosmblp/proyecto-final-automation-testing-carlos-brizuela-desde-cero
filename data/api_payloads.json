@@ -1,0 +1,7 @@
+{
+  "new_post": {
+    "title": "Ensayo automatizado de creación",
+    "body": "Datos enviados desde pytest usando Requests.",
+    "userId": 1
+  }
+}

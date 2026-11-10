@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 # Claro. CheckoutPage es la clase que representa la pantalla donde se piden los datos de la persona 
 # antes de revisar el pedido. Guarda el navegador que recibe y ofrece métodos para llenar el formulario, 
@@ -17,9 +19,18 @@ class CheckoutPage:
         self.driver = driver
 
     def fill_customer_info(self, first_name, last_name, postal_code):
-        self.driver.find_element(*self.FIRST_NAME_FIELD).send_keys(first_name)
-        self.driver.find_element(*self.LAST_NAME_FIELD).send_keys(last_name)
-        self.driver.find_element(*self.POSTAL_CODE_FIELD).send_keys(postal_code)
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.FIRST_NAME_FIELD)
+        ).send_keys(first_name)
+        
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.LAST_NAME_FIELD)
+        ).send_keys(last_name)
+        
+        WebDriverWait(self.driver, 10).until(
+            EC.visibility_of_element_located(self.POSTAL_CODE_FIELD)
+        ).send_keys(postal_code)
+       
 
     # Busca el botón Continue y hace clic para pasar a la pantalla siguiente del checkout.
     def continue_to_overview(self):

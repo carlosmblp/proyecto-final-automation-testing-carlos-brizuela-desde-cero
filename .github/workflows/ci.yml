@@ -45,3 +45,15 @@ jobs:
 
       - name: Ejecutar pruebas
         run: python -m pytest
+      
+      - name: Guardar reporte y capturas de CI
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: evidencias-ui
+          path: |
+            reports/reporte.html
+            reports/screens/
+          if-no-files-found: ignore
+          retention-days: 3
+      

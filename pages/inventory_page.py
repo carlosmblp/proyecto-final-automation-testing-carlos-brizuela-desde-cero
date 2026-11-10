@@ -1,4 +1,6 @@
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.ui import WebDriverWait
 
 
 class InventoryPage:
@@ -13,11 +15,14 @@ class InventoryPage:
     # Por ejemplo, al pasar "sauce-labs-backpack", la f inserta ese texto en el selector y 
     # Selenium busca [data-test="add-to-cart-sauce-labs-backpack"].
     def add_product_to_cart(self, product_id):
-        add_button = (
-            By.CSS_SELECTOR,
-            f'[data-test="add-to-cart-{product_id}"]',
+        button_locator = (
+        By.CSS_SELECTOR,
+        f'[data-test="add-to-cart-{product_id}"]'
         )
-        self.driver.find_element(*add_button).click()
+
+        WebDriverWait(self.driver, 10).until(
+        EC.element_to_be_clickable(button_locator)
+        ).click()
 
     # get_cart_count() encuentra el contador y devuelve el texto que contiene, por ejemplo "1"
     def get_cart_count(self):
